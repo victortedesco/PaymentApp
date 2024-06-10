@@ -6,16 +6,14 @@ namespace Employment
     internal class Program
     {
         private readonly static InputReader _inputReader = new();
+        private static bool isRegisteringEmployees = true;
 
         static void Main()
         {
             Console.InputEncoding = System.Text.Encoding.UTF8;
             Console.OutputEncoding = System.Text.Encoding.UTF8;
 
-            var quantity = _inputReader.ReadUint("Digite a quantidade:");
-            Console.Clear();
-
-            for (int i = 0; i < quantity; i++)
+            while (isRegisteringEmployees)
             {
                 RegisterEmployee();
             }
@@ -43,12 +41,12 @@ namespace Employment
             {
                 Employee.Employees.Add(new Employee(name, hours, valuePerHour));
             }
-            Console.WriteLine();
+            isRegisteringEmployees = _inputReader.ReadString("Deseja cadastrar outro usuário? (Y/N):").ToLower()[0] == 'y';
         }
 
         private static void DisplayEmployees()
         {
-            Console.WriteLine("Relatório:");
+            Console.WriteLine("\nRelatório:");
             foreach (var employee in Employee.Employees)
             {
                 Console.WriteLine($"{employee.Name} | ${employee.GetPayment():0.00}");
