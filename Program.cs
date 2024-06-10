@@ -9,6 +9,7 @@ namespace Employment
 
         static void Main()
         {
+            Console.InputEncoding = System.Text.Encoding.UTF8;
             Console.OutputEncoding = System.Text.Encoding.UTF8;
 
             var quantity = _inputReader.ReadUint("Digite a quantidade:");
@@ -48,7 +49,7 @@ namespace Employment
         private static void DisplayEmployees()
         {
             Console.WriteLine("Relatório:");
-            foreach (Employee employee in Employee.Employees)
+            foreach (var employee in Employee.Employees)
             {
                 Console.WriteLine($"{employee.Name} | ${employee.GetPayment():0.00}");
             }

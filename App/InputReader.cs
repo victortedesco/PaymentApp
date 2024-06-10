@@ -24,7 +24,7 @@
             do
             {
                 Console.WriteLine(message);
-            } while (!double.TryParse(Console.ReadLine(), out value) || value <= 0);
+            } while (!double.TryParse(Console.ReadLine().Replace(',', '.'), out value) || value <= 0);
             return value;
         }
     }
