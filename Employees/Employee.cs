@@ -3,15 +3,15 @@
     public class Employee
     {
         public static List<Employee> Employees { get; } = [];
+        public static int CurrentId { get; set; } = 0;
 
-        public int Id { get; }
+        public int Id { get; } = CurrentId;
         public string Name { get; }
         public uint Hours { get; }
         public double ValuePerHour { get; }
 
-        public Employee(int id, string name, uint hours, double valuePerHour)
+        public Employee(string name, uint hours, double valuePerHour)
         {
-            Id = id;
             Name = name;
             Hours = hours;
             ValuePerHour = valuePerHour;

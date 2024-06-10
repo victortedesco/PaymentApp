@@ -4,7 +4,7 @@
     {
         public double AdditionalCharge { get; }
 
-        public OutSourcedEmployee(int id, string name, uint hours, double valuePerHour, double additionalCharge) : base(id, name, hours, valuePerHour)
+        public OutSourcedEmployee(string name, uint hours, double valuePerHour, double additionalCharge) : base(name, hours, valuePerHour)
         {
             AdditionalCharge = additionalCharge;
         }

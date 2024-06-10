@@ -6,7 +6,6 @@ namespace Employment
     internal class Program
     {
         private readonly static InputReader _inputReader = new();
-        private static int _currentId = 0;
 
         static void Main()
         {
@@ -26,8 +25,8 @@ namespace Employment
 
         private static void RegisterEmployee()
         {
-            _currentId++;
-            Console.WriteLine($"Funcionário #{_currentId}");
+            Employee.CurrentId++;
+            Console.WriteLine($"Funcionário #{Employee.CurrentId}");
             bool isOutsourced = _inputReader.ReadString("O funcionário é terceirizado? (Y/N):").ToLower()[0] == 'y';
 
             string name = _inputReader.ReadString("Digite o nome do funcionário:");
@@ -37,11 +36,11 @@ namespace Employment
             if (isOutsourced)
             {
                 double additionalCharge = _inputReader.ReadDouble("Digite a taxa adicional:");
-                Employee.Employees.Add(new OutSourcedEmployee(_currentId, name, hours, valuePerHour, additionalCharge));
+                Employee.Employees.Add(new OutSourcedEmployee(name, hours, valuePerHour, additionalCharge));
             }
             else
             {
-                Employee.Employees.Add(new Employee(_currentId, name, hours, valuePerHour));
+                Employee.Employees.Add(new Employee(name, hours, valuePerHour));
             }
             Console.WriteLine();
         }
