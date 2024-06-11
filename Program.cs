@@ -19,6 +19,13 @@ namespace Employment
             }
 
             DisplayEmployees();
+
+            bool writeToFile = _inputReader.ReadString("Deseja escrever esse relátório em um arquivo .csv? (Y/N):").ToLower()[0] == 'y';
+            if (writeToFile)
+            {
+                WriteToFile();
+            }
+
             Console.ReadLine();
         }
 
@@ -51,6 +58,20 @@ namespace Employment
             {
                 Console.WriteLine($"{employee.Name} | ${employee.GetPayment():0.00}");
             }
+        }
+
+        private static void WriteToFile()
+        {
+            string path = "relatorio.csv";
+
+            using StreamWriter sw = new(path, false);
+
+            sw.WriteLine("Nome, Pagamento");
+            foreach (var employee in Employee.Employees)
+            {
+                sw.WriteLine($"{employee.Name}, {employee.GetPayment():0.00}");
+            }
+            Console.WriteLine($"\nRelatório escrito em {Path.GetFullPath(path)}");
         }
     }
 }
