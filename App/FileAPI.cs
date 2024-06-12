@@ -65,10 +65,10 @@ namespace PaymentApp.App
 
             using StreamWriter streamWriter = new(path, false);
 
-            streamWriter.WriteLine("Nome, Pagamento");
+            streamWriter.WriteLine("Nome,Pagamento");
             foreach (var employee in Employee.Employees)
             {
-                streamWriter.WriteLine(employee.ToString());
+                streamWriter.WriteLine(employee.ToString().Replace(" | ", ","));
             }
             Console.WriteLine($"\nRelatório escrito em {Path.GetFullPath(path)}");
         }
