@@ -1,7 +1,7 @@
 ﻿using PaymentApp.App;
 using PaymentApp.Employees;
 
-namespace Employment
+namespace PaymentApp
 {
     internal class Program
     {
@@ -10,10 +10,27 @@ namespace Employment
 
         static void Main()
         {
-            Console.Clear();
-            Console.InputEncoding = System.Text.Encoding.UTF8;
-            Console.OutputEncoding = System.Text.Encoding.UTF8;
+            SetupConsoleEncoding();
+            ProcessEmployeeData();
+            DisplayEmployeeReport();
+            Console.ReadLine();
+        }
 
+        private static void DisplayEmployeeReport()
+        {
+            Console.WriteLine("\nRelatório:");
+            Employee.DisplayEmployees();
+            Console.WriteLine();
+
+            var writeToFile = InputReader.ReadString("Deseja escrever esse relátório em um arquivo .csv? (Y/N):").ToLower()[0] == 'y';
+            if (writeToFile)
+            {
+                FileAPI.WriteToFile();
+            }
+        }
+
+        private static void ProcessEmployeeData()
+        {
             var importFromFile = InputReader.ReadString("Deseja importar funcionários de um arquivo? (Y/N):").ToLower()[0] == 'y';
 
             if (importFromFile)
@@ -36,19 +53,13 @@ namespace Employment
                     FileAPI.RegisterEmployee();
                 }
             }
+        }
 
-            Console.WriteLine("\nRelatório:");
-            Employee.DisplayEmployees();
-            Console.WriteLine();
-
-            var writeToFile = InputReader.ReadString("Deseja escrever esse relátório em um arquivo .csv? (Y/N):").ToLower()[0] == 'y';
-            if (writeToFile)
-            {
-                FileAPI.WriteToFile();
-            }
-
-
-            Console.ReadLine();
+        private static void SetupConsoleEncoding()
+        {
+            Console.Clear();
+            Console.InputEncoding = System.Text.Encoding.UTF8;
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
         }
     }
 }
