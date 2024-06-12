@@ -1,4 +1,4 @@
-﻿namespace Employment.Employees
+﻿namespace PaymentApp.Employees
 {
     public class OutSourcedEmployee : Employee
     {

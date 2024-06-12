@@ -1,4 +1,4 @@
-﻿namespace Employment.App
+﻿namespace PaymentApp.App
 {
     public class InputReader
     {
