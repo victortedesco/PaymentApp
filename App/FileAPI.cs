@@ -1,4 +1,5 @@
 ﻿using PaymentApp.Employees;
+using System.Text;
 
 namespace PaymentApp.App
 {
@@ -18,7 +19,7 @@ namespace PaymentApp.App
                 int i = 0;
                 while ((line = streamReader.ReadLine()) != null)
                 {
-                    if (line.StartsWith('#') || line.StartsWith("//")) continue;
+                    if (line.StartsWith('#') || line.StartsWith("//") || string.IsNullOrWhiteSpace(line)) continue;
 
                     i++;
                     Employee.CurrentId++;
@@ -28,7 +29,7 @@ namespace PaymentApp.App
                     {
                         if (data.Length > 4)
                         {
-                            Console.WriteLine($"A linha {i} possui mais de 4 entradas, elas serão ignoradas.");
+                            Console.WriteLine($"A linha {i} possui mais de 4 valores, elas serão ignoradas.");
                         }
                         string name = data[0];
                         uint hours = uint.Parse(data[1]);
@@ -72,7 +73,7 @@ namespace PaymentApp.App
         {
             string path = "relatorio.csv";
 
-            using StreamWriter streamWriter = new(path, false);
+            using StreamWriter streamWriter = new(path, false, new UTF8Encoding(true));
 
             streamWriter.WriteLine("Id,Nome,Pagamento");
             foreach (var employee in Employee.Employees)
