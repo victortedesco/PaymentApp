@@ -1,12 +1,12 @@
 // Nome;Horas;ValorPorHora;TaxaAdicional
 // Se taxa adicional for menor ou igual a 0, o funcionário não é terceirizado.
 
-Paul;50;20.0;0.0
+Paul;50;20.0;0.0;500a
 Tom;100;15.0;200.0
 Ana;40;25.0;50.0
 Carlos;60;30.0;0.0
 Fernanda;45;20.0;0.0
-Roberto;35;22.5;75.0
+Roberto;35daa;22.5;75.0
 Mariana;50;18.0;0.0
 João;55;27.5;100.0
 Julia;30;32.0;0.0

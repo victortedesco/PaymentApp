@@ -12,12 +12,13 @@
 
         public Employee(string name, uint hours, double valuePerHour)
         {
+            CurrentId++;
             Name = name;
             Hours = hours;
             ValuePerHour = valuePerHour;
         }
 
-        public virtual double GetPayment()
+        public virtual double Payment()
         {
             return Hours * ValuePerHour;
         }
@@ -32,7 +33,7 @@
 
         public override string ToString()
         {
-            return $"{this.Name} | ${this.GetPayment():0.00}";
+            return $"{Name} | ${Payment():0.00}";
         }
     }
 }

@@ -9,9 +9,9 @@
             AdditionalCharge = additionalCharge;
         }
 
-        public override double GetPayment()
+        public override double Payment()
         {
-            return (base.GetPayment() + AdditionalCharge) * 1.16;
+            return (base.Payment() + AdditionalCharge) * 1.16;
         }
     }
 }

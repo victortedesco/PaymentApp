@@ -13,6 +13,7 @@ namespace PaymentApp
             SetupConsoleEncoding();
             ProcessEmployeeData();
             DisplayEmployeeReport();
+            PromptForReportFileWrite();
             Console.ReadLine();
         }
 
@@ -21,8 +22,11 @@ namespace PaymentApp
             Console.WriteLine("\nRelatório:");
             Employee.DisplayEmployees();
             Console.WriteLine();
+        }
 
-            var writeToFile = InputReader.ReadString("Deseja escrever esse relátório em um arquivo .csv? (Y/N):").ToLower()[0] == 'y';
+        private static void PromptForReportFileWrite()
+        {
+            var writeToFile = InputReader.ReadString("Deseja escrever esse relátório em um arquivo .csv? (Y/N):").ToLower() == "y";
             if (writeToFile)
             {
                 FileAPI.WriteToFile();
@@ -31,7 +35,7 @@ namespace PaymentApp
 
         private static void ProcessEmployeeData()
         {
-            var importFromFile = InputReader.ReadString("Deseja importar funcionários de um arquivo? (Y/N):").ToLower()[0] == 'y';
+            var importFromFile = InputReader.ReadString("Deseja importar funcionários de um arquivo? (Y/N):").ToLower() == "y";
 
             if (importFromFile)
             {
@@ -48,6 +52,7 @@ namespace PaymentApp
             }
             else
             {
+                AppState.IsRegisteringEmployees = true;
                 while (AppState.IsRegisteringEmployees)
                 {
                     FileAPI.RegisterEmployee();
