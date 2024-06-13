@@ -16,20 +16,23 @@ namespace PaymentApp.App
             {
                 using StreamReader streamReader = new(path, true);
                 string line;
-                int i = 0;
+                int lineIndex = 0;
                 while ((line = streamReader.ReadLine()) != null)
                 {
+                    lineIndex++;
                     if (line.StartsWith('#') || line.StartsWith("//") || string.IsNullOrWhiteSpace(line)) continue;
 
-                    i++;
                     Employee.CurrentId++;
                     var data = line.Split(';');
-
+                    for (int i = 0; i < data.Length; i++)
+                    {
+                        data[i] = data[i].Trim();
+                    }
                     try
                     {
                         if (data.Length > 4)
                         {
-                            Console.WriteLine($"A linha {i} possui mais de 4 valores, elas serão ignoradas.");
+                            Console.WriteLine($"A linha {lineIndex} possui mais de 4 valores, os valores depois de {data[3]} serão ignorados.");
                         }
                         string name = data[0];
                         uint hours = uint.Parse(data[1]);
@@ -46,7 +49,7 @@ namespace PaymentApp.App
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine($"Erro ao importar funcionário da linha {i}: {e.Message}");
+                        Console.WriteLine($"Erro ao importar funcionário da linha {lineIndex}: {e.Message}");
                     }
                 }
                 AppState.IsValidEntries = true;
@@ -75,10 +78,11 @@ namespace PaymentApp.App
 
             using StreamWriter streamWriter = new(path, false, new UTF8Encoding(true));
 
-            streamWriter.WriteLine("Id,Nome,Pagamento");
+            streamWriter.WriteLine("Id,Nome,Pagamento,Terceirizado");
             foreach (var employee in Employee.Employees)
             {
-                streamWriter.WriteLine($"{employee.Id},{employee.Name},${employee.GetPayment():0.00}");
+                var isOutsourced = employee is OutSourcedEmployee ? "Sim" : "Não";
+                streamWriter.WriteLine($"{employee.Id},{employee.Name},${employee.GetPayment():0.00},{isOutsourced}");
             }
             Console.WriteLine($"\nRelatório escrito em {Path.GetFullPath(path)}");
         }
