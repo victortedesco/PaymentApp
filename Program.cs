@@ -8,7 +8,7 @@ namespace PaymentApp
         private static InputReader InputReader { get; } = new();
         private static FileAPI FileAPI { get; } = new(InputReader);
 
-        static void Main()
+        private static void Main()
         {
             SetupConsoleEncoding();
             ProcessEmployeeData();
@@ -26,7 +26,7 @@ namespace PaymentApp
 
         private static void PromptForReportFileWrite()
         {
-            var writeToFile = InputReader.ReadString("Deseja escrever esse relátório em um arquivo .csv? (Y/N):").ToLower() == "y";
+            bool writeToFile = InputReader.ReadBool("Deseja escrever esse relátório em um arquivo .csv? (Y/N):");
             if (writeToFile)
             {
                 FileAPI.WriteToFile();
@@ -35,7 +35,7 @@ namespace PaymentApp
 
         private static void ProcessEmployeeData()
         {
-            var importFromFile = InputReader.ReadString("Deseja importar funcionários de um arquivo? (Y/N):").ToLower() == "y";
+            bool importFromFile = InputReader.ReadBool("Deseja importar funcionários de um arquivo? (Y/N):");
 
             if (importFromFile)
             {
@@ -49,14 +49,13 @@ namespace PaymentApp
                         FileAPI.RegisterEmployee();
                     }
                 }
+                return;
             }
-            else
+
+            AppState.IsRegisteringEmployees = true;
+            while (AppState.IsRegisteringEmployees)
             {
-                AppState.IsRegisteringEmployees = true;
-                while (AppState.IsRegisteringEmployees)
-                {
-                    FileAPI.RegisterEmployee();
-                }
+                FileAPI.RegisterEmployee();
             }
         }
 

@@ -12,6 +12,7 @@ namespace PaymentApp.App
             string path = "funcionarios.txt";
             // Formato correto para o arquivo: Nome; Horas; ValorPorHora; TaxaAdicional.
             // Se taxa adicional for menor ou igual a 0, o funcionário não é terceirizado.
+
             if (File.Exists(path))
             {
                 using StreamReader streamReader = new(path, true);
@@ -31,7 +32,7 @@ namespace PaymentApp.App
                 }
                 ReportImportResults();
                 AppState.IsValidEntries = true;
-                bool registerMoreEntries = _inputReader.ReadString("Deseja cadastrar outro usuário? (Y/N):").ToLower() == "y";
+                bool registerMoreEntries = _inputReader.ReadBool("Deseja cadastrar outro usuário? (Y/N):");
                 if (registerMoreEntries)
                 {
                     AppState.IsRegisteringEmployees = true;
@@ -40,27 +41,23 @@ namespace PaymentApp.App
                         RegisterEmployee();
                     }
                 }
+                return;
             }
-            else
-            {
-                Console.WriteLine($"Arquivo \"{path}\" não encontrado.");
-                Console.WriteLine("Iniciando o processo manual...\n");
-                AppState.IsRegisteringEmployees = true;
-                AppState.IsValidEntries = false;
-            }
+            Console.WriteLine($"Arquivo \"{path}\" não encontrado.");
+            Console.WriteLine("Iniciando o processo manual...\n");
+            AppState.IsRegisteringEmployees = true;
+            AppState.IsValidEntries = false;
         }
 
         private static void ReportImportResults()
         {
-            var employeesCount = Employee.Employees.Count;
+            int employeesCount = Employee.Employees.Count;
             if (employeesCount == 0)
             {
                 Console.WriteLine("O arquivo existe, mas ele não possui nenhum funcionário.");
+                return;
             }
-            else
-            {
-                Console.WriteLine($"{employeesCount} funcionário(s) importado(s) com sucesso.");
-            }
+            Console.WriteLine($"{employeesCount} funcionário(s) importado(s) com sucesso.");
         }
 
         private static void ProcessEmployeeData(int lineIndex, string[] data)
@@ -99,7 +96,7 @@ namespace PaymentApp.App
             streamWriter.WriteLine("Id,Nome,Pagamento,Terceirizado");
             foreach (var employee in Employee.Employees)
             {
-                var isOutsourced = employee is OutSourcedEmployee ? "Sim" : "Não";
+                string isOutsourced = employee is OutSourcedEmployee ? "Sim" : "Não";
                 streamWriter.WriteLine($"{employee.Id},{employee.Name},${employee.Payment():0.00},{isOutsourced}");
             }
             Console.WriteLine($"\nRelatório escrito em {Path.GetFullPath(path)}");
@@ -108,7 +105,7 @@ namespace PaymentApp.App
         public void RegisterEmployee()
         {
             Console.WriteLine($"Funcionário #{Employee.CurrentId + 1}");
-            bool isOutsourced = _inputReader.ReadString("O funcionário é terceirizado? (Y/N):").ToLower() == "y";
+            bool isOutsourced = _inputReader.ReadBool("O funcionário é terceirizado? (Y/N):");
 
             string name = _inputReader.ReadString("Digite o nome do funcionário:");
             uint hours = _inputReader.ReadUint("Digite a quantidade de horas trabalhadas:");
@@ -123,7 +120,7 @@ namespace PaymentApp.App
             {
                 Employee.Employees.Add(new Employee(name, hours, valuePerHour));
             }
-            AppState.IsRegisteringEmployees = _inputReader.ReadString("Deseja cadastrar outro usuário? (Y/N):").ToLower() == "y";
+            AppState.IsRegisteringEmployees = _inputReader.ReadBool("Deseja cadastrar outro usuário? (Y/N):");
             AppState.IsValidEntries = true;
         }
     }

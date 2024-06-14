@@ -2,6 +2,18 @@
 {
     public class InputReader
     {
+        public bool ReadBool(string message)
+        {
+            Console.WriteLine(message);
+            string input = Console.ReadLine().ToLower();
+            while (input != "y" && input != "n")
+            {
+                Console.WriteLine(message);
+                input = Console.ReadLine().ToLower();
+            }
+            return input == "y";
+        }
+
         public string ReadString(string message)
         {
             Console.WriteLine(message);
